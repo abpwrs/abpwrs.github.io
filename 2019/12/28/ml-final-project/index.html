@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Alexander Powers">
+
+
+
+
+
+<title>Machine Learning Final Project | Alexander Powers</title>
+
+
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+    
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-138288591-1', 'auto');
+            ga('send', 'pageview');
+        </script>
+        
+<meta name="generator" content="Hexo 4.2.1"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Alex Powers</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Alex Powers</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Machine Learning Final Project</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Alexander Powers</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">December 28, 2019&nbsp;&nbsp;16:20:24</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <link rel="stylesheet" type="text&#x2F;css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css"><style>
+    .caption {
+        text-align:center
+    }
+</style>
+
+
+<p>This semester, I took a machine learning and pattern recognition course. The final project for this course was an exploration of deep learning on the MNIST dataset, and an accuracy competition on the CIFAR10 dataset. <a href="https://github.com/abpwrs/ece-5450-fa19/blob/master/ml_project.ipynb" target="_blank" rel="noopener">This</a> notebook goes through the entire final project assignment, however, this post will only go through the final transfer learning solution I submitted for the CIFAR10 competition.</p>
+<p><img src="/2019/12/28/ml-final-project/viz.png" alt></p>
+<p class="caption">Twenty Five Example Classifications</p>
+
+
+<h1 id="CIFAR10"><a href="#CIFAR10" class="headerlink" title="CIFAR10"></a>CIFAR10</h1><p>The CIFAR10 dataset consists of 60000 32x32 RGB images. Each of these images belongs to one of ten classes, with an evenly divided 6000 images per class. Additionally, 10000 of these samples are held out for cross validation.</p>
+<h1 id="Transfer-Learning"><a href="#Transfer-Learning" class="headerlink" title="Transfer Learning"></a>Transfer Learning</h1><p>The intuition for transfer learning is that we can leverage knowledge gained through learning one task to more effectively and/or quickly learn another task. In practice, this is done by using the weights of a network trained on a different task as a starting point for training a new network. For this project I used the <a href="https://www.tensorflow.org/api_docs/python/tf/keras/applications/VGG19?version=stable" target="_blank" rel="noopener">VGG19 network</a> trained to classify <a href="http://www.image-net.org/" target="_blank" rel="noopener">ImageNet</a> data. I chose this model because it ships with tensorflow and does not require upsampling the 32x32 images to a greater resolution. Below is the code that defines the model:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">transfer_model=VGG19(input_shape=(<span class="number">32</span>,<span class="number">32</span>,<span class="number">3</span>), weights=<span class="string">'imagenet'</span>, include_top=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># set layers to non-trainable</span></span><br><span class="line"><span class="keyword">for</span> l <span class="keyword">in</span> transfer_model.layers:</span><br><span class="line">    l.trainable = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">x = transfer_model.output</span><br><span class="line">x = Flatten()(x)</span><br><span class="line"></span><br><span class="line">x = Dense(<span class="number">1024</span>,activation=<span class="string">'relu'</span>)(x)</span><br><span class="line">x = Dropout(<span class="number">0.25</span>)(x)</span><br><span class="line">x = Dense(<span class="number">512</span>,activation=<span class="string">'relu'</span>)(x)</span><br><span class="line">x = Dropout(<span class="number">0.25</span>)(x)</span><br><span class="line">x = BatchNormalization()(x)</span><br><span class="line">x = Dense(<span class="number">512</span>,activation=<span class="string">'relu'</span>)(x)</span><br><span class="line">x = Dropout(<span class="number">0.25</span>)(x)</span><br><span class="line">x = Dense(<span class="number">256</span>,activation=<span class="string">'relu'</span>)(x)</span><br><span class="line">x = Dropout(<span class="number">0.25</span>)(x)</span><br><span class="line">x = BatchNormalization()(x)</span><br><span class="line">x = Dense(<span class="number">256</span>,activation=<span class="string">'relu'</span>)(x)</span><br><span class="line">x = Dropout(<span class="number">0.25</span>)(x)</span><br><span class="line">x = Dense(<span class="number">128</span>,activation=<span class="string">'relu'</span>)(x)</span><br><span class="line">x = Dropout(<span class="number">0.25</span>)(x)</span><br><span class="line">x = BatchNormalization()(x)</span><br><span class="line">x = Dense(<span class="number">128</span>,activation=<span class="string">'relu'</span>)(x)</span><br><span class="line">x = Dropout(<span class="number">0.25</span>)(x)</span><br><span class="line">x = Dense(<span class="number">64</span>,activation=<span class="string">'relu'</span>)(x)</span><br><span class="line">x = Dropout(<span class="number">0.25</span>)(x)</span><br><span class="line">x = BatchNormalization()(x)</span><br><span class="line">x = Dense(<span class="number">64</span>,activation=<span class="string">'relu'</span>)(x)</span><br><span class="line">x = Dropout(<span class="number">0.25</span>)(x)</span><br><span class="line">x = Dense(<span class="number">64</span>,activation=<span class="string">'relu'</span>)(x)</span><br><span class="line">x = Dropout(<span class="number">0.25</span>)(x)</span><br><span class="line">x = BatchNormalization()(x)</span><br><span class="line">out = Dense(NUM_CLASSES, activation=<span class="string">'softmax'</span>)(x)</span><br><span class="line"></span><br><span class="line">opt_model = Model(inputs=transfer_model.inputs, outputs=out)</span><br><span class="line">opt_model.compile(</span><br><span class="line">    optimizer=tf.keras.optimizers.Adam(<span class="number">1e-3</span>),</span><br><span class="line">    loss=tf.keras.losses.categorical_crossentropy,</span><br><span class="line">    metrics=[<span class="string">"accuracy"</span>, <span class="string">"mse"</span>],</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>The first round of training only trains the layers that we added to the end of the VGG19 network. We do this so that the training of the model specific layers doesn&#39;t degrade the quality of the weights in the pretrained network. This training last for 50 epochs:</p>
+<p><img src="/2019/12/28/ml-final-project/first-training.png" alt></p>
+<p class="caption">Loss and Accuracy Training on CIFAR10 Specific Layer Parameters</p>
+
+
+<p>We then reset all layers to be trainable, and recompile the model with a lower learning rate. Then the entire model is retrained for 150 epochs, until the validation loss stopped decreasing.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> l <span class="keyword">in</span> opt_model.layers:</span><br><span class="line">    l.trainable = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">opt_model.compile(</span><br><span class="line">    optimizer=tf.keras.optimizers.Adam(<span class="number">1e-4</span>),</span><br><span class="line">    loss=tf.keras.losses.categorical_crossentropy,</span><br><span class="line">    metrics=[<span class="string">"accuracy"</span>, <span class="string">"mse"</span>],</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<p><img src="/2019/12/28/ml-final-project/second-training.png" alt></p>
+<p class="caption">Loss and Accuracy Training on All Parameters</p>
+
+
+<p>The visualization below give us further insight into the sources of error in the model. We can see in the confusion matrix below that classes three and five (cat and dog respectively) are getting being misclassified as the other. </p>
+<p><img src="/2019/12/28/ml-final-project/cm.png" alt></p>
+<p class="caption">Confusion Matrix Across the Ten Classes</p>
+
+
+<p>I was able to achieve a final accuracy of <code>87.36%</code> on the validation data, placing my model in the top five of the class.</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Alexander Powers</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://alexpowers.dev/2019/12/28/ml-final-project/">https://alexpowers.dev/2019/12/28/ml-final-project/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/deep-learning/"># deep-learning</a>
+                    
+                        <a href="/tags/transfer-learning/"># transfer-learning</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2019/12/26/dl-final-project/">Deep Learning Final Project</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Alexander Powers | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

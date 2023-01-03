@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en" class="motion-safe:scroll-smooth 2xl:text-[20px]">
+	<head>
+		<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BASH Talk — Alex Powers</title>
+<meta name="robots" content="index,follow" />
+<meta property="og:title" content="BASH Talk" />
+<meta property="og:url" content="https://alexpowers.dev/posts/bash-talk" />
+<meta property="og:type" content="article" />
+<link rel="canonical" href="https://alexpowers.dev/posts/bash-talk" />
+
+
+<!-- Or Google Fonts -->
+
+<!-- MathJax Support -->
+
+ 
+ <!-- iconify support -->
+
+
+<!-- Required popper.js -- tool tip support -->
+<script src="https://unpkg.com/@popperjs/core@2.9.1/dist/umd/popper.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+  var tooltipTriggerList = [].slice.call(
+    document.querySelectorAll('[data-bs-toggle="tooltip"]')
+  );
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new Tooltip(tooltipTriggerEl);
+  });
+</script>
+
+<!-- Google Site Verification -->
+
+
+<!-- Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-138288591-1" type="text/partytown"></script>
+
+<script type="text/partytown">(function(){const id = "UA-138288591-1";
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    window.dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+  gtag("config", id);
+})();</script>
+
+
+
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="icon" type="image/ico" href="/favicon.ico">
+<link rel="mask-icon" href="/favicon.ico" color="#FFF">
+
+
+	<link rel="stylesheet" href="/assets/_...page_.14666471.css" /><script type="module" src="/hoisted.421b1382.js"></script>
+<script>!(function(w,p,f,c){c=w[p]=Object.assign(w[p]||{},{"lib":"/~partytown/","debug":false});c[f]=(c[f]||[]).concat(["dataLayer.push"])})(window,'partytown','forward');/* Partytown 0.7.3 - MIT builder.io */
+!function(t,e,n,i,r,o,a,d,s,c,p,l){function u(){l||(l=1,"/"==(a=(o.lib||"/~partytown/")+(o.debug?"debug/":""))[0]&&(s=e.querySelectorAll('script[type="text/partytown"]'),i!=t?i.dispatchEvent(new CustomEvent("pt1",{detail:t})):(d=setTimeout(w,1e4),e.addEventListener("pt0",f),r?h(1):n.serviceWorker?n.serviceWorker.register(a+(o.swPath||"partytown-sw.js"),{scope:a}).then((function(t){t.active?h():t.installing&&t.installing.addEventListener("statechange",(function(t){"activated"==t.target.state&&h()}))}),console.error):w())))}function h(t){c=e.createElement(t?"script":"iframe"),t||(c.setAttribute("style","display:block;width:0;height:0;border:0;visibility:hidden"),c.setAttribute("aria-hidden",!0)),c.src=a+"partytown-"+(t?"atomics.js?v=0.7.3":"sandbox-sw.html?"+Date.now()),e.body.appendChild(c)}function w(t,n){for(f(),t=0;t<s.length;t++)(n=e.createElement("script")).innerHTML=s[t].innerHTML,e.head.appendChild(n);c&&c.parentNode.removeChild(c)}function f(){clearTimeout(d)}o=t.partytown||{},i==t&&(o.forward||[]).map((function(e){p=t,e.split(".").map((function(e,n,i){p=p[i[n]]=n+1<i.length?"push"==i[n+1]?[]:p[i[n]]||{}:function(){(t._ptf=t._ptf||[]).push(i,arguments)}}))})),"complete"==e.readyState?u():(t.addEventListener("DOMContentLoaded",u),t.addEventListener("load",u))}(window,document,navigator,top,window.crossOriginIsolated);</script></head>
+
+	<body class="antialiased text-gray-900 dark:text-slate-300 tracking-tight bg-white dark:bg-slate-900">
+		<header class="sticky top-0 z-40 flex-none mx-auto w-full bg-white md:bg-white/90 dark:bg-slate-900 dark:md:bg-slate-900/90 md:backdrop-blur-sm" id="header">
+	<div class="py-3 px-3 mx-auto w-full md:flex md:justify-between max-w-6xl md:px-4">
+		<div class="flex justify-between">
+			<a class="flex items-center" href="/">
+				<span class="self-center ml-2 text-2xl md:text-xl font-bold text-gray-900 whitespace-nowrap dark:text-white">Alex Powers</span>
+			</a>
+			<div class="flex items-center md:hidden">
+				<!-- <ToggleTheme /> -->
+				<button type="button" class="ml-1.5 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center transition" aria-label="Toggle Menu" data-aw-toggle-menu>
+	<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" class="w-6 h-6" astro-icon="tabler:menu"><g class="icon-tabler" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h16"/><path d="M4 16h16"/></g></svg>
+</button>
+			</div>
+		</div>
+		<nav class="items-center w-full md:w-auto hidden md:flex text-gray-600 dark:text-slate-200 h-[calc(100vh-100px)] md:h-auto overflow-y-auto md:overflow-visible" aria-label="Main navigation">
+			<ul class="flex flex-col pt-8 md:pt-0 md:flex-row md:self-center w-full md:w-auto text-xl md:text-base">
+				<li>
+					<a class="font-medium hover:text-gray-900 dark:hover:text-white px-4 py-3 flex items-center transition duration-150 ease-in-out" href="/posts">Posts</a>
+				</li>
+				<li>
+					<a class="font-medium hover:text-gray-900 dark:hover:text-white px-4 py-3 flex items-center transition duration-150 ease-in-out" href="/resume">Resume</a>
+				</li>
+				<li class="md:hidden">
+					<a class="font-bold hover:text-gray-900 dark:hover:text-white px-4 py-3 flex items-center transition duration-150 ease-in-out" href="https://github.com/abpwrs">Github
+					</a>
+				</li>
+				<li class="md:hidden">
+					<a class="font-bold hover:text-gray-900 dark:hover:text-white px-4 py-3 flex items-center transition duration-150 ease-in-out" href="https://www.linkedin.com/in/alexander-powers">Linkedin
+					</a>
+				</li>
+			</ul>
+			<div class="md:self-center flex items-center mb-4 md:mb-0 ml-2">
+				<div class="hidden items-center md:flex">
+					<!-- <ToggleTheme iconClass="w-5 h-5" /> -->
+					<!-- <a
+						class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center"
+						aria-label="RSS Feed"
+						href={getRelativeLink('/rss.xml')}
+					>
+						<Icon name="tabler:rss" class="w-5 h-5" />
+					</a> -->
+					<a href="https://www.linkedin.com/in/alexander-powers" class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5" aria-label="Linkedin">
+						<svg viewBox="0 0 24 24" class="w-5 h-5" astro-icon="tabler:brand-linkedin"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="icon-tabler"><rect width="16" height="16" x="4" y="4" rx="2"/><path d="M8 11v5M8 8v.01M12 16v-5M16 16v-3a2 2 0 0 0-4 0"/></g></svg>
+					</a>
+					<a href="https://github.com/abpwrs" class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5" aria-label="Github">
+						<svg viewBox="0 0 24 24" class="w-5 h-5" astro-icon="tabler:brand-github"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
+					</a>
+				</div>
+			</div>
+		</nav>
+	</div>
+</header><main>
+		<section class="py-8 sm:py-16 lg:py-20 mx-auto">
+	<article>
+		<header class="">
+			<p class="px-4 sm:px-6 max-w-3xl mx-auto">
+				<time datetime="Mar 30 2019">Mar 30, 2019</time> ~ 2 min
+				read
+			</p>
+			<h1 class="px-4 sm:px-6 max-w-3xl mx-auto text-4xl md:text-5xl font-bold leading-tighter tracking-tighter mb-8 font-heading">
+				BASH Talk
+			</h1>
+			<div class="max-w-3xl mx-auto px-4 sm:px-6">
+						<div class="border-t dark:border-slate-700"></div>
+					</div>
+		</header>
+		<div class="container mx-auto px-6 sm:px-6 max-w-3xl prose prose-lg lg:prose-xl dark:prose-invert dark:prose-headings:text-slate-300 prose-md prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-primary-600 dark:prose-a:text-primary-400 prose-img:rounded-md prose-img:shadow-lg mt-8">
+			<p><img src="/src/assets/blog/bash-talk/bash-logo.png" alt=""></p>
+<p>This spring, I gave a talk on one of my favorite languages called BASH, the <strong>B</strong>ourne <strong>A</strong>gain <strong>SH</strong>ell. The workshop slides and some batch scripting examples can be found on my github <a href="https://github.com/abpwrs/bash-talk">here</a>.</p>
+<h2 id="what-is-bash">What is BASH?</h2>
+<hr>
+<p>BASH is a unix shell and command language that reads from standard input or from a file. BASH allows you to interact with the filesystem and run/manage other programs through the command line. File system navigation and manipulation (coping, moving, deleting) isn’t neccesarily easier in BASH, but once you practice using it it is way faster then a graphical user interface. The talk that I gave focused mainly on the basic commands, and working with large quantities of files.</p>
+<h2 id="example-scripts-from-talk">Example Scripts from Talk</h2>
+<hr>
+<p>A script that makes script files with boiler plate and input validation.</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #8B949E">#!/usr/bin/env bash</span></span>
+<span class="line"><span style="color: #8B949E"># Author: abpwrs</span></span>
+<span class="line"><span style="color: #8B949E"># Date: 20190325</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> [[ $# </span><span style="color: #FF7B72">-ne</span><span style="color: #C9D1D9"> 1 ]]</span><span style="color: #FF7B72">;</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">then</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"Usage: </span><span style="color: #C9D1D9">$0</span><span style="color: #A5D6FF"> &#x3C;name-of-new-shell>"</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">exit</span></span>
+<span class="line"><span style="color: #FF7B72">fi</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">cat </span><span style="color: #FF7B72">></span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">$1</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&#x3C;&#x3C;</span><span style="color: #A5D6FF"> </span><span style="color: #FF7B72">EOF</span></span>
+<span class="line"><span style="color: #A5D6FF">#!/usr/bin/env bash</span></span>
+<span class="line"><span style="color: #A5D6FF"># Author: </span><span style="color: #C9D1D9">$USER</span></span>
+<span class="line"><span style="color: #A5D6FF"># Date: `date +%Y%m%d`</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #A5D6FF"># args:</span></span>
+<span class="line"><span style="color: #A5D6FF"># 1 --</span></span>
+<span class="line"><span style="color: #A5D6FF"># 2 --</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #A5D6FF">#if [[ </span><span style="color: #79C0FF">\$</span><span style="color: #A5D6FF"># -ne 1 ]]; then</span></span>
+<span class="line"><span style="color: #A5D6FF">#    echo "Usage: </span><span style="color: #79C0FF">\$</span><span style="color: #A5D6FF">0 &#x3C;param-1> &#x3C;param-2> ..."</span></span>
+<span class="line"><span style="color: #A5D6FF">#    exit</span></span>
+<span class="line"><span style="color: #A5D6FF">#fi</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #A5D6FF"># script:</span></span>
+<span class="line"><span style="color: #FF7B72">EOF</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">chmod 700 $1</span></span></code></pre>
+<p>A script that creates date formatted directories.</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #8B949E">#!/usr/bin/env bash</span></span>
+<span class="line"><span style="color: #8B949E"># Author: abpwrs</span></span>
+<span class="line"><span style="color: #8B949E"># Date: 20190326</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> [ $# </span><span style="color: #FF7B72">-ne</span><span style="color: #C9D1D9"> 1 ]</span><span style="color: #FF7B72">;</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">then</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"... Incorrect Usage ..."</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"Usage: </span><span style="color: #C9D1D9">${0}</span><span style="color: #A5D6FF"> ProjectNameNoSpaces"</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">exit</span><span style="color: #C9D1D9"> -1</span></span>
+<span class="line"><span style="color: #FF7B72">fi</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">DATE=</span><span style="color: #A5D6FF">`date +%Y%m%d`</span></span>
+<span class="line"><span style="color: #C9D1D9">PROJECT_NAME=${1}</span></span>
+<span class="line"><span style="color: #C9D1D9">DIR_NAME=</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">${DATE}</span><span style="color: #A5D6FF">_</span><span style="color: #C9D1D9">${PROJECT_NAME}</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">mkdir ${DIR_NAME}</span></span></code></pre>
+<p>An example of both ways to create functions in bash.</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #8B949E">#!/usr/bin/env bash</span></span>
+<span class="line"><span style="color: #8B949E"># Author: alexander</span></span>
+<span class="line"><span style="color: #8B949E"># Thu Feb 28 21:11:30 CST 2019</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #D2A8FF">func_a</span><span style="color: #C9D1D9"> (){</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"inside of a"</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">func_b</span><span style="color: #C9D1D9"> (){</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"inside of b"</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #D2A8FF">func_c</span><span style="color: #C9D1D9"> (){</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"entering c"</span></span>
+<span class="line"><span style="color: #C9D1D9">    func_a</span></span>
+<span class="line"><span style="color: #C9D1D9">    func_b</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"leaving c"</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">func_a</span></span>
+<span class="line"><span style="color: #C9D1D9">func_c</span></span>
+<span class="line"><span style="color: #C9D1D9">func_b</span></span></code></pre>
+<p>resulting in the following:</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">inside of a</span></span>
+<span class="line"><span style="color: #c9d1d9">entering c</span></span>
+<span class="line"><span style="color: #c9d1d9">inside of a</span></span>
+<span class="line"><span style="color: #c9d1d9">inside of b</span></span>
+<span class="line"><span style="color: #c9d1d9">leaving c</span></span>
+<span class="line"><span style="color: #c9d1d9">inside of b</span></span></code></pre>
+		</div>
+		<div class="container mx-auto px-6 sm:px-6 max-w-3xl mt-8 flex justify-between flex-col sm:flex-row">
+			<ul class="mr-5">
+			<li class="bg-gray-100 dark:bg-slate-700 inline-block mr-2 mb-2 py-0.5 px-2">
+					<a href="/tag/tech-talk">tech-talk</a>
+				</li><li class="bg-gray-100 dark:bg-slate-700 inline-block mr-2 mb-2 py-0.5 px-2">
+					<a href="/tag/bash">bash</a>
+				</li>
+		</ul>
+			<div class="mt-5 sm:mt-1 align-middle text-gray-500 dark:text-slate-600">
+	<span class="align-super font-bold">Share:</span>
+	<button class="ml-2" title="Twitter Share" data-aw-social-share="twitter" data-aw-url="https://alexpowers.dev/posts/bash-talk" data-aw-text="BASH Talk"><svg viewBox="0 0 256 209" class="w-6 h-6" astro-icon="logos:twitter"><path fill="#55acee" d="M256 25.45a105.04 105.04 0 0 1-30.166 8.27c10.845-6.5 19.172-16.793 23.093-29.057a105.183 105.183 0 0 1-33.351 12.745C205.995 7.201 192.346.822 177.239.822c-29.006 0-52.523 23.516-52.523 52.52 0 4.117.465 8.125 1.36 11.97-43.65-2.191-82.35-23.1-108.255-54.876-4.52 7.757-7.11 16.78-7.11 26.404 0 18.222 9.273 34.297 23.365 43.716a52.312 52.312 0 0 1-23.79-6.57c-.003.22-.003.44-.003.661 0 25.447 18.104 46.675 42.13 51.5a52.592 52.592 0 0 1-23.718.9c6.683 20.866 26.08 36.05 49.062 36.475-17.975 14.086-40.622 22.483-65.228 22.483-4.24 0-8.42-.249-12.529-.734 23.243 14.902 50.85 23.597 80.51 23.597 96.607 0 149.434-80.031 149.434-149.435 0-2.278-.05-4.543-.152-6.795A106.748 106.748 0 0 0 256 25.45"/></svg>
+	</button>
+	<button class="ml-2" title="Facebook Share" data-aw-social-share="facebook" data-aw-url="https://alexpowers.dev/posts/bash-talk"><svg viewBox="0 0 256 256" class="w-6 h-6" astro-icon="logos:facebook"><path fill="#395185" d="M241.871 256.001c7.802 0 14.129-6.326 14.129-14.129V14.129C256 6.325 249.673 0 241.871 0H14.129C6.324 0 0 6.325 0 14.129v227.743c0 7.803 6.324 14.129 14.129 14.129h227.742"/><path fill="#FFF" d="M176.635 256.001v-99.137h33.277l4.982-38.635h-38.259V93.561c0-11.186 3.107-18.809 19.148-18.809l20.459-.009V40.188c-3.54-.471-15.684-1.523-29.812-1.523-29.498 0-49.692 18.005-49.692 51.071v28.493h-33.362v38.635h33.362v99.137h39.897"/></svg>
+	</button>
+	<button class="ml-2" title="Linkedin Share" data-aw-social-share="linkedin" data-aw-url="https://alexpowers.dev/posts/bash-talk" data-aw-text="BASH Talk"><svg viewBox="0 0 256 256" class="w-6 h-6" astro-icon="logos:linkedin-icon"><path fill="#0A66C2" d="M218.123 218.127h-37.931v-59.403c0-14.165-.253-32.4-19.728-32.4-19.756 0-22.779 15.434-22.779 31.369v60.43h-37.93V95.967h36.413v16.694h.51a39.907 39.907 0 0 1 35.928-19.733c38.445 0 45.533 25.288 45.533 58.186l-.016 67.013zM56.955 79.27c-12.157.002-22.014-9.852-22.016-22.009-.002-12.157 9.851-22.014 22.008-22.016 12.157-.003 22.014 9.851 22.016 22.008A22.013 22.013 0 0 1 56.955 79.27m18.966 138.858H37.95V95.967h37.97v122.16zM237.033.018H18.89C8.58-.098.125 8.161-.001 18.471v219.053c.122 10.315 8.576 18.582 18.89 18.474h218.144c10.336.128 18.823-8.139 18.966-18.474V18.454c-.147-10.33-8.635-18.588-18.966-18.453"/></svg>
+	</button>
+	<button class="ml-2" title="Whatsapp Share" data-aw-social-share="whatsapp" data-aw-url="https://alexpowers.dev/posts/bash-talk" data-aw-text="BASH Talk"><svg viewBox="0 0 256 259" class="w-6 h-6" astro-icon="logos:whatsapp"><path fill="#00E676" d="m67.663 221.823 4.185 2.093c17.44 10.463 36.971 15.346 56.503 15.346 61.385 0 111.609-50.224 111.609-111.609 0-29.297-11.859-57.897-32.785-78.824-20.927-20.927-48.83-32.785-78.824-32.785-61.385 0-111.61 50.224-110.912 112.307 0 20.926 6.278 41.156 16.741 58.594l2.79 4.186-11.16 41.156 41.853-10.464z"/><path fill="#FFF" d="M219.033 37.668C195.316 13.254 162.531 0 129.048 0 57.898 0 .698 57.897 1.395 128.35c0 22.322 6.278 43.947 16.742 63.478L0 258.096l67.663-17.439c18.834 10.464 39.76 15.347 60.688 15.347 70.453 0 127.653-57.898 127.653-128.35 0-34.181-13.254-66.269-36.97-89.986zM129.048 234.38c-18.834 0-37.668-4.882-53.712-14.648l-4.185-2.093-40.458 10.463 10.463-39.76-2.79-4.186C7.673 134.63 22.322 69.058 72.546 38.365c50.224-30.692 115.097-16.043 145.79 34.181 30.692 50.224 16.043 115.097-34.18 145.79-16.045 10.463-35.576 16.043-55.108 16.043zm61.385-77.428-7.673-3.488s-11.16-4.883-18.136-8.371c-.698 0-1.395-.698-2.093-.698-2.093 0-3.488.698-4.883 1.396 0 0-.697.697-10.463 11.858-.698 1.395-2.093 2.093-3.488 2.093h-.698c-.697 0-2.092-.698-2.79-1.395l-3.488-1.395c-7.673-3.488-14.648-7.674-20.229-13.254-1.395-1.395-3.488-2.79-4.883-4.185-4.883-4.883-9.766-10.464-13.253-16.742l-.698-1.395c-.697-.698-.697-1.395-1.395-2.79 0-1.395 0-2.79.698-3.488 0 0 2.79-3.488 4.882-5.58 1.396-1.396 2.093-3.488 3.488-4.883 1.395-2.093 2.093-4.883 1.395-6.976-.697-3.488-9.068-22.322-11.16-26.507-1.396-2.093-2.79-2.79-4.883-3.488H83.01c-1.396 0-2.79.698-4.186.698l-.698.697c-1.395.698-2.79 2.093-4.185 2.79-1.395 1.396-2.093 2.79-3.488 4.186-4.883 6.278-7.673 13.951-7.673 21.624 0 5.58 1.395 11.161 3.488 16.044l.698 2.093c6.278 13.253 14.648 25.112 25.81 35.575l2.79 2.79c2.092 2.093 4.185 3.488 5.58 5.58 14.649 12.557 31.39 21.625 50.224 26.508 2.093.697 4.883.697 6.976 1.395h6.975c3.488 0 7.673-1.395 10.464-2.79 2.092-1.395 3.487-1.395 4.882-2.79l1.396-1.396c1.395-1.395 2.79-2.092 4.185-3.487 1.395-1.395 2.79-2.79 3.488-4.186 1.395-2.79 2.092-6.278 2.79-9.765v-4.883s-.698-.698-2.093-1.395z"/></svg>
+	</button>
+	<button class="ml-2" title="Email Share" data-aw-social-share="mail" data-aw-url="https://alexpowers.dev/posts/bash-talk" data-aw-text="BASH Talk"><svg viewBox="0 0 24 24" class="w-6 h-6" astro-icon="tabler:mail"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="icon-tabler"><rect width="18" height="14" x="3" y="5" rx="2"/><path d="m3 7 9 6 9-6"/></g></svg>
+	</button>
+</div>
+		</div>
+	</article>
+</section>
+	</main><footer class="border-t border-gray-200 dark:border-slate-800">
+	<div class="flex justify-center max-w-6xl mx-auto px-4 sm:px-6 my-6">
+		<p>&copy 2023 Alex Powers. All rights reserved.</p>
+	</div>
+</footer>
+		<script>
+	// Set "light" theme as default
+	// if (!localStorage.theme) {
+	//   localStorage.theme = "light";
+	// }
+
+	if (
+		localStorage.theme === 'dark' ||
+		(!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+	) {
+		document.documentElement.classList.add('dark');
+	} else {
+		document.documentElement.classList.remove('dark');
+	}
+
+	function attachEvent(selector, event, fn) {
+		const matches = document.querySelectorAll(selector);
+		if (matches && matches.length) {
+			matches.forEach((elem) => {
+				elem.addEventListener(event, () => fn(elem), false);
+			});
+		}
+	}
+
+	window.onload = function () {
+		attachEvent('[data-aw-toggle-menu]', 'click', function (elem) {
+			elem.classList.toggle('expanded');
+			document.body.classList.toggle('overflow-hidden');
+			document.getElementById('header')?.classList.toggle('h-screen');
+			document.querySelector('#header nav')?.classList.toggle('hidden');
+		});
+
+		attachEvent('[data-aw-toggle-color-scheme]', 'click', function () {
+			document.documentElement.classList.toggle('dark');
+			localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+		});
+
+		attachEvent('[data-aw-social-share]', 'click', function (elem) {
+			const network = elem.getAttribute('data-aw-social-share');
+			const url = encodeURIComponent(elem.getAttribute('data-aw-url'));
+			const text = encodeURIComponent(elem.getAttribute('data-aw-text'));
+
+			let href;
+			switch (network) {
+				case 'facebook':
+					href = `https://www.facebook.com/sharer.php?u=${url}`;
+					break;
+				case 'twitter':
+					href = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
+					break;
+				case 'linkedin':
+					href = `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${text}`;
+					break;
+				case 'whatsapp':
+					href = `https://wa.me/?text=${text}%20${url}`;
+					break;
+				case 'mail':
+					href = `mailto:?subject=%22${text}%22&body=${text}%20${url}`;
+					break;
+
+				default:
+					return;
+			}
+
+			const newlink = document.createElement('a');
+			newlink.target = '_blank';
+			newlink.href = href;
+			newlink.click();
+		});
+	};
+	window.onpageshow = function () {
+		const elem = document.querySelector('[data-aw-toggle-menu]');
+		if (elem) {
+			elem.classList.remove('expanded');
+		}
+		document.body.classList.remove('overflow-hidden');
+		document.getElementById('header')?.classList.remove('h-screen');
+		document.querySelector('#header nav')?.classList.add('hidden');
+	};
+</script>
+
+		
+	</body>
+</html>

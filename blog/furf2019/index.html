@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" class="astro-3WAFVWYH">
+	<head>
+		<!-- Global Metadata --><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/favicon.ico">
+<meta name="generator" content="Astro v1.6.12">
+
+<!-- Primary Meta Tags -->
+<title>Fall Undergraduate Research Festival 2019</title>
+<meta name="title" content="Fall Undergraduate Research Festival 2019">
+<meta name="description">
+
+<!-- Open Graph / Facebook -->
+<!-- <meta property="og:type" content="website" />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={new URL(image, Astro.url)} /> -->
+
+<!-- Twitter -->
+<!-- <meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={new URL(image, Astro.url)} /> -->
+
+		
+	<link rel="stylesheet" href="/assets/about.d6dc1795.css" />
+<link rel="stylesheet" href="/assets/about.6ed7d03b.css" /></head>
+
+	<body class="astro-3WAFVWYH">
+		<script>
+			MathJax = {
+			tex: {
+				inlineMath: [['$', '$']]
+			}
+			};
+			</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+			</script>
+		<header class="astro-7F3CJDUI">
+	<h2 class="astro-7F3CJDUI">
+		Alexander Powers
+	</h2>
+	<h4 class="astro-7F3CJDUI">Engineer, Researcher, and ML Nerd.</h4>
+	<nav class="astro-7F3CJDUI">
+		<a href="/" class="astro-7F3CJDUI astro-FPRMATIO">
+	Home
+</a>
+
+		<a href="/blog" class="astro-7F3CJDUI astro-FPRMATIO">
+	Posts
+</a>
+
+		<a href="/about" class="astro-7F3CJDUI astro-FPRMATIO">
+	About
+</a>
+
+		<a href="https://github.com/abpwrs" class="astro-7F3CJDUI astro-FPRMATIO" target="_blank">
+	GitHub
+</a>
+
+	</nav>
+</header>
+
+		<main class="astro-3WAFVWYH">
+			<article class="astro-3WAFVWYH">
+				
+				<h1 class="title astro-3WAFVWYH">Fall Undergraduate Research Festival 2019</h1>
+				<time class="astro-3WAFVWYH">Nov 13 2019</time>
+				
+				<hr class="astro-3WAFVWYH">
+				<p>Today I presented my current research at the Fall Undergraduate Research Festival. This work is focused on using reinforcement learning to simultaneously and automatically detect multiple landmarks in human head MRI scans.
+<strong>Acknowledgement:</strong> This work was done in collaboration with <a href="https://github.com/ArjitJ">Arjit Jain</a>, and the code is based on an extension of <a href="https://github.com/amiralansary/rl-medical">rl-medical</a>.</p>
+<p><img src="/blog/furf2019/img/six-lmks.png" alt="Mid-sagittal Landmarks"></p>
+<h1 id="abstract">Abstract</h1>
+<p>Reliable detection of anatomical landmarks is an essential preprocessing step in many medical image analysis algorithms. Existing solutions for multiple landmark detection are generally slow, heuristic-based algorithms that are susceptible to failure in the presence of missing data, like defacing and partial fields of view. Reinforcement learning (RL) offers a potential solution by modeling the landmark detection task as an iterative process, where a software agent moves through the image to locate a landmark, which allows the agent to learn both the trajectory and representation of the landmark of interest. We have expanded upon existing work in RL based single landmark detection to detect multiple landmarks simultaneously in a way that allows all agents to share what they learn with one another.</p>
+<h1 id="reinforcement-learning">Reinforcement Learning</h1>
+<p>Reinforcement learning is about an agent learning to make a good sequence of decisions. The agent learns to make good decisions by exploring an environment and receiving feedback from the environment about the quality of each action.
+<img src="/blog/furf2019/img/AgentEnv.jpg" alt="AgentEnv">
+At each step, an agent must make a decision to move in a way that increases the expected reward. This sequential decision making is modeled as a Markov Decision Process (MDP) $\mathcal{M}:=(\mathcal{S}, \mathcal{A}, \mathcal{T}, \mathcal{R}, \gamma)$, where $\mathcal{S}$ represents a finite set of states, $\mathcal{A}$ represents a finite set of actions used to interact with the environment, $\mathcal{T}:\mathcal{S} \times \mathcal{A} \times \mathcal{S} \rightarrow[ 0, 1 ]$ is a stochastic transition function, where $T_{s, a}^{s^{\prime}}$ describes the probability of arriving in state $s^{\prime}$ after performing action $a$ in state $s$, $\mathcal{R} : \mathcal{S} \times \mathcal{A} \times \mathcal{S} \rightarrow \mathbb{R}$ is a scalar reward function, where $R_{s, a}^{s^{\prime}}$ denotes the expected reward after a state transition, and $\gamma$ is the discount factor controlling future versus immediate rewards. The future discounted reward of an agent at time $\hat{t}$ can be written as $R_{\hat{t}}=\sum_{t=\hat{t}}^{T} \gamma^{t-\hat{t}} r_{t}$, with $T$ marking the end of a learning episode and $r_{t}$ defining the immediate reward the agent receives at time $t$.</p>
+<p>For example, the transition function $\mathcal{T}$ and reward function $\mathcal{R}$ of a two state MDP with an $\mathbf{N}$ dimensional action space may look like the following:</p>
+<style>
+.row {
+  display: flex;
+}
+.column-two {
+  flex: 50%;
+  padding: 5px;
+}
+</style>
+<div class="row">
+  <div class="column-two">
+    <img src="/blog/furf2019/img/TransitionMatrix.jpg" alt="TransitionMatrix" style="width:100%">
+  </div>
+  <div class="column-two">
+    <img src="/blog/furf2019/img/RewardMatrix.jpg" alt="RewardMatrix" style="width:100%">
+  </div>
+</div>
+<h2 id="q-learning-and-deep-q-learning">Q-Learning and Deep Q-Learning</h2>
+<p>Both of these topics deserve their own post/series of posts, but here I will only give a brief explanation of them to give context to the DQN network we designed. In Q-Learning, we learn want to learn the optimal action-value function, $Q^{*}(s, a)$, which denotes the ‘quality’ of an action in a given state. The $Q$ function can then be used to select an optimal action at every state:</p>
+<p>$$ a = \arg\underset{a \in \mathcal{A}}{\max}{Q^{*}(s,a)} $$</p>
+<p>In this work we utilize Deep Q-Learning which uses a deep neural network to approximate the action-value function: $Q(s,a) \approx Q(s,a;\theta)$. This network’s input is the current state of the agent, and the output is the $Q$ values for each action in the agent’s action space.</p>
+<h1 id="framing-landmark-detection-as-an-rl-problem">Framing Landmark Detection as an RL Problem</h1>
+<p>In order to do RL for landmark detection we need to answer three key questions: i) What is the reward function? ii) What is the state/observation space of the agent? and iii) What actions can the agent take in the environment?</p>
+<p><strong>Reward function:</strong> The reward is the difference in the euclidean distance of the agent to the landmark between the previous step and the current step. This can be written as: $r_{t} = d(p_{t-1}, x) - d(p_{t}, x)$, where $p_t$ is the agents position in $\mathbb{R}^n$ at time $t$, $x$ is the location of the target landmark in $\mathbb{R}^n$, and $d$ is the Euclidean distance function.</p>
+<p><strong>States:</strong> The state for our agent is the 29x29x29 cube of voxels (volumetric pixels) around the agent.</p>
+<p><strong>Action Space:</strong> The agent’s action space consists of moving left/right $(\pm x)$, anterior/posterior $(\pm y)$, and superior/inferior $(\pm z)$ by one voxel in the image. This allows the agent to easily traverse the entire 3D volume.</p>
+<h2 id="sharing-representations-w-hard-parameter-sharing">Sharing Representations w/ Hard Parameter Sharing</h2>
+<p>To detect multiple landmarks simultaneously, we need multiple agents to navigate their way through the image independently. Agents can work together in this process by sharing the weights of the convolutional layers. This technique of weight sharing, known as hard parameter sharing, leverages the similarity of all of the tasks to learn a common representation more rapidly.
+<img src="/blog/furf2019/img/MultiAgentNetworkDiagram.jpg" alt="MultiAgentNetworkDiagram"></p>
+<h1 id="results">Results</h1>
+<p>The network we made is able to accurately learn the trajectory and appearance of the landmarks of interest. We found that the network achieved accuracy on the order of <code>1-2mm</code>. Below you can see three agents simulatenously detecting the Anterior Commissure (left), Left Eye (center), and Right Eye (right).</p>
+<style>
+.row {
+  display: flex;
+}
+.column-three {
+  flex: 33%;
+  padding: 5px;
+}
+</style>
+<div class="row">
+  <div class="column-three">
+    <img src="/blog/furf2019/gif/normal/img2_T1w_0_loop.gif" alt="TransitionMatrix" style="width:100%">
+  </div>
+  <div class="column-three">
+    <img src="/blog/furf2019/gif/normal/img2_T1w_1_loop.gif" alt="RewardMatrix" style="width:100%">
+  </div>  
+  <div class="column-three">
+    <img src="/blog/furf2019/gif/normal/img2_T1w_2_loop.gif" alt="RewardMatrix" style="width:100%">
+  </div>
+</div>
+
+			</article>
+		</main>
+		<footer class="astro-O7B7CN5A">
+	&copy; 2023 Alexander Powers. All rights reserved.
+</footer>
+
+	</body></html>

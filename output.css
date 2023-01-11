@@ -573,6 +573,10 @@ video {
   padding: 0.25rem;
 }
 
+.p-2 {
+  padding: 0.5rem;
+}
+
 .pb-2 {
   padding-bottom: 0.5rem;
 }
@@ -622,7 +626,7 @@ body {
   font-family: Verdana, sans-serif;
   margin: auto;
   padding: 20px;
-  max-width: 65ch;
+  max-width: 75ch;
   text-align: left;
   background-color: #fff;
   word-wrap: break-word;

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" class="astro-3WAFVWYH">
+	<head>
+		<!-- Global Metadata --><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/favicon.ico">
+<meta name="generator" content="Astro v1.6.12">
+
+<!-- Primary Meta Tags -->
+<title>Deep Learning Final Project</title>
+<meta name="title" content="Deep Learning Final Project">
+<meta name="description">
+
+<!-- Open Graph / Facebook -->
+<!-- <meta property="og:type" content="website" />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={new URL(image, Astro.url)} /> -->
+
+<!-- Twitter -->
+<!-- <meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={new URL(image, Astro.url)} /> -->
+
+		
+	<link rel="stylesheet" href="/assets/about.d6dc1795.css" />
+<link rel="stylesheet" href="/assets/about.6ed7d03b.css" /></head>
+
+	<body class="astro-3WAFVWYH">
+		<script>
+			MathJax = {
+			tex: {
+				inlineMath: [['$', '$']]
+			}
+			};
+			</script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+			</script>
+		<header class="astro-7F3CJDUI">
+	<h2 class="astro-7F3CJDUI">
+		Alexander Powers
+	</h2>
+	<h4 class="astro-7F3CJDUI">Engineer, Researcher, and ML Nerd.</h4>
+	<nav class="astro-7F3CJDUI">
+		<a href="/" class="astro-7F3CJDUI astro-FPRMATIO">
+	Home
+</a>
+
+		<a href="/blog" class="astro-7F3CJDUI astro-FPRMATIO">
+	Posts
+</a>
+
+		<a href="/about" class="astro-7F3CJDUI astro-FPRMATIO">
+	About
+</a>
+
+		<a href="https://github.com/abpwrs" class="astro-7F3CJDUI astro-FPRMATIO" target="_blank">
+	GitHub
+</a>
+
+	</nav>
+</header>
+
+		<main class="astro-3WAFVWYH">
+			<article class="astro-3WAFVWYH">
+				
+				<h1 class="title astro-3WAFVWYH">Deep Learning Final Project</h1>
+				<time class="astro-3WAFVWYH">Dec 12 2019</time>
+				
+				<hr class="astro-3WAFVWYH">
+				<p>This semester, I took a contemporary topics course on deep learning. For the final project, I decided to learn more about multi-task learning (MTL). The final report can be found <a href="https://github.com/abpwrs/ece-5995-fa19/blob/master/final-report.pdf">here</a>, and the code <a href="https://github.com/abpwrs/ece-5995-fa19">here</a>.</p>
+<h1 id="intro">Intro</h1>
+<p>This project was an exploration of different hard-parameter sharing architectures, and their impact on classification tasks. The end goal of this project was to develop an intuition for the effects hard-parameter sharing, and to learn how to build networks with multiple inputs and outputs.</p>
+<h2 id="cifar100">CIFAR100</h2>
+<p>The CIFAR100 dataset consists of 100 classes of images, which are grouped into 20 super classes. These can be thought of as fine and coarse grain labels. The data consists of 500 training images, and 100 test images for each fine class. Each image has exactly one fine label and one coarse label. The images in the CIFAR100 dataset are 32x32 RGB (three channel) images, making the network input shape: $(32, 32, 3)$.</p>
+<h1 id="network-architectures">Network Architectures</h1>
+<h4 id="1-independent-networks-the-control-architecture">1) Independent networks (the control architecture)</h4>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">input_image --> conv_layers --> fc_layers --> fine_label</span></span>
+<span class="line"><span style="color: #c9d1d9">input_image --> conv_layers --> fc_layers --> coarse_label</span></span></code></pre>
+<h4 id="2-hard-parameter-sharing-in-convolutional-layers">2) Hard parameter sharing in convolutional layers</h4>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">                           /--> fc_layers --> fine_label</span></span>
+<span class="line"><span style="color: #c9d1d9">input_image --> conv_layers</span></span>
+<span class="line"><span style="color: #c9d1d9">                           \--> fc_layers --> coarse_label</span></span></code></pre>
+<h4 id="3-using-coarse-label-output-as-weights">3) Using coarse label output as weights</h4>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">input_image   ---->   conv_layers   ---->   fc_layers_1</span></span>
+<span class="line"><span style="color: #c9d1d9">                                                      \</span></span>
+<span class="line"><span style="color: #c9d1d9">                                                    concat -> fc_layers_2  -> fine_label</span></span>
+<span class="line"><span style="color: #c9d1d9">                                                      /</span></span>
+<span class="line"><span style="color: #c9d1d9">input_image -> conv_layers -> fc_layers -> coarse_label</span></span></code></pre>
+<h4 id="4-using-fine-label-output-as-weights">4) Using fine label output as weights</h4>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">input_image   ---->   conv_layers   ---->   fc_layers_1</span></span>
+<span class="line"><span style="color: #c9d1d9">                                                      \</span></span>
+<span class="line"><span style="color: #c9d1d9">                                                    concat -> fc_layers_2  -> coarse_label</span></span>
+<span class="line"><span style="color: #c9d1d9">                                                      /</span></span>
+<span class="line"><span style="color: #c9d1d9">input_image -> conv_layers -> fc_layers -> fine_label</span></span></code></pre>
+<h4 id="5-combination-of-2--3">5) Combination of 2 &#x26; 3</h4>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">                         / -------------> fc_layers_1</span></span>
+<span class="line"><span style="color: #c9d1d9">                        /                           \</span></span>
+<span class="line"><span style="color: #c9d1d9">input_image -> conv_layers                        concat -> fc_layers_2 -> fine_label</span></span>
+<span class="line"><span style="color: #c9d1d9">                        \                           /</span></span>
+<span class="line"><span style="color: #c9d1d9">                         \-> fc_layers -> coarse_label</span></span></code></pre>
+<h4 id="6-combination-of-2--4">6) Combination of 2 &#x26; 4</h4>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">                         / -------------> fc_layers_1</span></span>
+<span class="line"><span style="color: #c9d1d9">                        /                           \</span></span>
+<span class="line"><span style="color: #c9d1d9">input_image -> conv_layers                        concat -> fc_layers_2 -> coarse_label</span></span>
+<span class="line"><span style="color: #c9d1d9">                        \                           /</span></span>
+<span class="line"><span style="color: #c9d1d9">                         \-> fc_layers -> fine_label</span></span></code></pre>
+<h1 id="results">Results</h1>
+<p>After training each model with the same hyper-parameters for 100 epochs, I obtained the following results:</p>
+<h3 id="table-of-metrics-at-last-interation-epoch-100">Table of Metrics at Last Interation (Epoch 100)</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th align="center">Model</th><th align="center">Fine Loss</th><th align="center">Coarse Loss</th><th align="center">Fine Accuracy</th><th align="center">Coarse Accuracy</th></tr></thead><tbody><tr><td align="center">Independent</td><td align="center">1.96</td><td align="center">1.15</td><td align="center">48.86%</td><td align="center">64.16%</td></tr><tr><td align="center">Shared Convolutions</td><td align="center">1.94</td><td align="center">1.16</td><td align="center">49.09%</td><td align="center">64.20%</td></tr><tr><td align="center">Reuse Coarse Labels</td><td align="center">1.83</td><td align="center">1.21</td><td align="center">51.50%</td><td align="center">62.29%</td></tr><tr><td align="center">Reuse Fine Labels</td><td align="center">1.95</td><td align="center">1.07</td><td align="center">49.14%</td><td align="center">68.38%</td></tr><tr><td align="center">Shared Reuse Coarse</td><td align="center">1.86</td><td align="center">1.16</td><td align="center">50.34%</td><td align="center">63.91%</td></tr><tr><td align="center">Shared Reuse Fine</td><td align="center">1.84</td><td align="center">1.06</td><td align="center">50.91%</td><td align="center">67.11%</td></tr></tbody></table>
+<style>
+.row {
+  display: flex;
+}
+.column-two {
+  flex: 50%;
+  padding: 5px;
+}
+</style>
+<h3 id="coarse-and-fine-classification-accuracy">Coarse and Fine Classification Accuracy</h3>
+<div class="row">
+  <div class="column-two">
+    <img src="/blog/dl-final-project/val_coarse_output_acc.png" alt="CoarseAcc" style="width:100%">
+  </div>
+  <div class="column-two">
+    <img src="/blog/dl-final-project/val_fine_output_acc.png" alt="FineAcc" style="width:100%">
+  </div>
+</div>
+<h3 id="coarse-and-fine-classification-loss">Coarse and Fine Classification Loss</h3>
+<div class="row">
+  <div class="column-two">
+    <img src="/blog/dl-final-project/val_coarse_output_loss.png" alt="CoarseLoss" style="width:100%">
+  </div>
+  <div class="column-two">
+    <img src="/blog/dl-final-project/val_fine_output_loss.png" alt="FineLoss" style="width:100%">
+  </div>
+</div>
+<h1 id="conclusions--lessons-learned">Conclusions &#x26; Lessons Learned</h1>
+<p>We can observe that the reuse of coarse/fine labels significantly benefits the performance of the network on the other task that is not being reused. We should additionally note that the architectures that reuse the coarse labels perform worse on coarse label prediction than the control network. I hypothesize that this is because the error $w.r.t.$ the fine labels is propagated through the layers that predict the coarse label, and that these gradients, while improving fine label classification, slow down and even hurt the coarse label classification.</p>
+<p>If I were to redo this experiment, I would train each network until the validation loss started to diverge (not a fixed number of epochs). This would allow me to better assess how these hard-parameter sharing techniques impact convergence rate. I would also train all of these networks multiple times to get average performances for each network. Lastly, I think it would be interesting to examine the impact of convolutional layer weight sharing on transfer learning. I would expect that the weights from shared layers would be more robust and effective for transfer learning than either task independently.</p>
+			</article>
+		</main>
+		<footer class="astro-O7B7CN5A">
+	&copy; 2023 Alexander Powers. All rights reserved.
+</footer>
+
+	</body></html>
